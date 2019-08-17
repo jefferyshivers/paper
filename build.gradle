@@ -1,0 +1,35 @@
+description = ''
+
+allprojects {
+    group = 'io.tacolabs.paper'
+    version = '0.1.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    dependencies {
+        implementation 'com.google.guava:guava:27.0.1-jre'
+        implementation 'javax.validation:validation-api:2.0.1.Final'
+        implementation 'org.slf4j:slf4j-api:1.7.26'
+
+        // Use JUnit test framework
+        testImplementation 'junit:junit:4.12'
+    }
+
+    publishing {
+        publications {
+            jarModule(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    tasks.withType(org.gradle.api.tasks.javadoc.Javadoc).all { enabled = false }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}

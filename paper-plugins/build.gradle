@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+
+description = ''
+
+dependencies {
+    implementation project(':paper-api')
+    implementation 'org.xhtmlrenderer:flying-saucer-core:9.1.12'
+    implementation 'org.xhtmlrenderer:flying-saucer-pdf:9.1.12'
+    implementation 'org.w3c:dom:2.3.0-jaxb-1.0.6'
+}
