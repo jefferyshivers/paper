@@ -5,5 +5,11 @@ package io.tacolabs.paper;
  * @param <T>
  */
 public interface PaperDocument<T> {
+
+    /**
+     * Retrieve the source "document" object
+     * @return T document
+     */
     public T getDocument();
+
 }

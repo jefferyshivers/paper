@@ -7,7 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 
 /**
- * Paper wrapper around {@link org.w3c.dom.Document}
+ * PaperDocument wrapper around {@link org.w3c.dom.Document}
  */
 public abstract class HTMLDocument implements PaperDocument<Document> {
 
@@ -25,7 +25,7 @@ public abstract class HTMLDocument implements PaperDocument<Document> {
         try {
             return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         } catch (ParserConfigurationException parserConfigException) {
-            throw new HTMLDocumentException("failed to create new Document", parserConfigException);
+            throw new HTMLDocumentException("failed to create new Document instance", parserConfigException);
         }
     }
 
