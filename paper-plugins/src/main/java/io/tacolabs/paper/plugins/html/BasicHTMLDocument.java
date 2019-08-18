@@ -1,6 +1,5 @@
 package io.tacolabs.paper.plugins.html;
 
-import io.tacolabs.paper.PaperInstantiationException;
 import org.w3c.dom.Element;
 
 /**
@@ -11,7 +10,7 @@ public class BasicHTMLDocument extends HTMLDocument {
     private final Element head;
     private final Element body;
 
-    public BasicHTMLDocument() throws PaperInstantiationException {
+    public BasicHTMLDocument() throws HTMLDocumentException {
         super();
 
         Element html = document.createElement("html");

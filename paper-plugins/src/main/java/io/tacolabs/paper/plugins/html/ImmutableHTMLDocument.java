@@ -1,6 +1,5 @@
 package io.tacolabs.paper.plugins.html;
 
-import io.tacolabs.paper.PaperDocumentException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,43 +20,43 @@ public class ImmutableHTMLDocument extends HTMLDocument {
 
     private static final Logger logger = LoggerFactory.getLogger(ImmutableHTMLDocument.class);
 
-    private ImmutableHTMLDocument(Document document) throws ParserConfigurationException {
-        super(document);
+    private ImmutableHTMLDocument(final Document document) throws HTMLDocumentException {
+        super(duplicateDocument(document));
     }
 
-    public static ImmutableHTMLDocument from(File file) throws ParserConfigurationException, SAXException, IOException {
+    public static ImmutableHTMLDocument from(Document document) throws HTMLDocumentException {
+        return new ImmutableHTMLDocument(document);
+    }
+
+    public static ImmutableHTMLDocument from(File file) throws HTMLDocumentException, SAXException, IOException {
         return new ImmutableHTMLDocument(createDocumentBuilder().parse(file));
     }
 
-    public static ImmutableHTMLDocument from(String fileString) throws ParserConfigurationException, SAXException, IOException {
+    public static ImmutableHTMLDocument from(String fileString) throws HTMLDocumentException, SAXException, IOException {
         return new ImmutableHTMLDocument(createDocumentBuilder().parse(fileString));
     }
 
-    public static ImmutableHTMLDocument from(InputStream inputStream) throws ParserConfigurationException, SAXException, IOException {
+    public static ImmutableHTMLDocument from(InputStream inputStream) throws HTMLDocumentException, SAXException, IOException {
         return new ImmutableHTMLDocument(createDocumentBuilder().parse(inputStream));
     }
 
-    public static ImmutableHTMLDocument from(URI uri) throws ParserConfigurationException, SAXException, IOException {
+    public static ImmutableHTMLDocument from(URI uri) throws HTMLDocumentException, SAXException, IOException {
         return new ImmutableHTMLDocument(createDocumentBuilder().parse(uri.toString()));
     }
 
-    private static DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    private static DocumentBuilder createDocumentBuilder() throws HTMLDocumentException {
+        try {
+            return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        } catch (ParserConfigurationException parserConfigException) {
+            throw new HTMLDocumentException("", parserConfigException);
+        }
     }
 
-    @Override
-    public Document getDocument() throws PaperDocumentException {
-        Node root = document.getDocumentElement();
-        Document copy;
-
-        try {
-            copy = createDocument();
-            copy.importNode(root, true);
-            return copy;
-        } catch (ParserConfigurationException parserConfigException) {
-            logger.info(parserConfigException.getMessage());
-            throw new PaperDocumentException();
-        }
+    private static Document duplicateDocument(final Document original) throws HTMLDocumentException {
+        Node root = original.getDocumentElement();
+        Document copy = createDocument();
+        copy.importNode(root, true);
+        return copy;
     }
 
 }

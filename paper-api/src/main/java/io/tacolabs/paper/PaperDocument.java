@@ -5,5 +5,5 @@ package io.tacolabs.paper;
  * @param <T>
  */
 public interface PaperDocument<T> {
-    public T getDocument() throws PaperDocumentException;
+    public T getDocument();
 }

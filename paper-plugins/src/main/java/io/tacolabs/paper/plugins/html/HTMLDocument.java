@@ -1,8 +1,7 @@
 package io.tacolabs.paper.plugins.html;
 
 import io.tacolabs.paper.PaperDocument;
-import io.tacolabs.paper.PaperDocumentException;
-import io.tacolabs.paper.PaperInstantiationException;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -14,23 +13,23 @@ public abstract class HTMLDocument implements PaperDocument<Document> {
 
     protected final Document document;
 
-    protected HTMLDocument() throws PaperInstantiationException {
-        try {
-            this.document = createDocument();
-        } catch (ParserConfigurationException parserConfigException) {
-            throw new PaperInstantiationException("failed to create new Document");
-        }
+    protected HTMLDocument() throws HTMLDocumentException {
+        this.document = createDocument();
     }
 
     protected HTMLDocument(Document document) {
         this.document = document;
     }
 
-    protected static Document createDocument() throws ParserConfigurationException {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+    protected static Document createDocument() throws HTMLDocumentException {
+        try {
+            return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException parserConfigException) {
+            throw new HTMLDocumentException("failed to create new Document", parserConfigException);
+        }
     }
 
-    public Document getDocument() throws PaperDocumentException {
+    public Document getDocument() {
         return document;
     }
 

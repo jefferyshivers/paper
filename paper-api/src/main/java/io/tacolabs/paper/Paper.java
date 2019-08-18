@@ -28,7 +28,7 @@ public abstract class Paper<T extends PaperDocument> {
      * NOTE: This should <i>not</i> be overridden.
      * To change how the document is rendered, change {@link PaperRenderer#render(PaperDocument)} directly.
      */
-    public void render() {
+    public void render() throws PaperException {
         paperRenderer.render(paperDocument);
     }
 
